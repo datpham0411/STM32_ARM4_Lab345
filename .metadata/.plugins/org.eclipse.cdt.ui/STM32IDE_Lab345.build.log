@@ -1,0 +1,33 @@
+15:08:10 **** Incremental Build of configuration Debug for project STM32IDE_Lab345 ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/fsm_automatic.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/fsm_automatic.d" -MT"Core/Src/fsm_automatic.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fsm_automatic.o"
+In file included from ../Core/Inc/button.h:13,
+                 from ../Core/Inc/fsm_manual.h:11,
+                 from ../Core/Inc/fsm_automatic.h:11,
+                 from ../Core/Src/fsm_automatic.c:7:
+../Core/Inc/lcd.h:75:13: warning: 'LCD_WR_DATA' declared 'static' but never defined [-Wunused-function]
+   75 | static void LCD_WR_DATA(uint16_t data);
+      |             ^~~~~~~~~~~
+../Core/Inc/lcd.h:76:17: warning: 'LCD_RD_DATA' declared 'static' but never defined [-Wunused-function]
+   76 | static uint16_t LCD_RD_DATA(void);
+      |                 ^~~~~~~~~~~
+arm-none-eabi-gcc -o "STM32IDE_Lab345.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\datph\STM32CubeIDE\workspace_1.7.0\STM32_ARM4_Lab345\STM32IDE_Lab345\STM32F407ZGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32IDE_Lab345.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: STM32IDE_Lab345.elf
+ 
+arm-none-eabi-size   STM32IDE_Lab345.elf 
+arm-none-eabi-objdump -h -S  STM32IDE_Lab345.elf  > "STM32IDE_Lab345.list"
+arm-none-eabi-objcopy  -O ihex  STM32IDE_Lab345.elf  "STM32IDE_Lab345.hex"
+   text	   data	    bss	    dec	    hex	filename
+  29952	     40	   1952	  31944	   7cc8	STM32IDE_Lab345.elf
+arm-none-eabi-objcopy  -O binary  STM32IDE_Lab345.elf  "STM32IDE_Lab345.bin"
+Finished building: default.size.stdout
+ 
+Finished building: STM32IDE_Lab345.hex
+Finished building: STM32IDE_Lab345.bin
+ 
+ 
+Finished building: STM32IDE_Lab345.list
+ 
+
+15:08:11 Build Finished. 0 errors, 2 warnings. (took 747ms)
+
