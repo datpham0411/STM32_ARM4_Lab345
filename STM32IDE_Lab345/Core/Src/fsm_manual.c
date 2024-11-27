@@ -26,14 +26,6 @@ void fsm_manual_run() {
 		case INITIAL:
 			lcd_Clear(WHITE);
 
-//			setColor(GPIOA, ENA1_Pin, ENA2_Pin, ENA2_Pin, ON, ON, ON);
-//			setColor(GPIOA, ENB1_Pin, ENB2_Pin, ENB2_Pin, ON, ON, ON);
-//			setColor(GPIOB, SEG_0_Pin, SEG_1_Pin, SEG_2_Pin, OFF, OFF, OFF);
-//			setColor(GPIOB, SEG_3_Pin, SEG_4_Pin, SEG_5_Pin, OFF, OFF, OFF);
-//			setColor(GPIOB, SEG_6_Pin, SEG_A_Pin, SEG_B_Pin, OFF, OFF, OFF);
-//			setColor(GPIOB, SEG_C_Pin, SEG_D_Pin, SEG_E_Pin, OFF, OFF, OFF);
-//			setColor(GPIOB, SEG_F_Pin, SEG_G_Pin, SEG_G_Pin, OFF, OFF, OFF);
-
 			status = MODIFY_RED;
 			setTimer3(250);
 			setTimer2(147);
@@ -107,10 +99,7 @@ void fsm_manual_run() {
 				setTimer2(147);
 				display_num('B', MODIFY_AMBER);
 			}
-
-//			setColor(GPIOA, LED_RED_A_Pin, LED_RED_B_Pin, LED_RED_B_Pin, OFF, OFF, OFF);
-//			setColor(GPIOA, LED_GREEN_A_Pin, LED_GREEN_B_Pin, LED_GREEN_B_Pin, OFF, OFF, OFF);
-
+			
 			if (timer3_flag == 1 && toggle_flag == 0) {
 				setTimer3(250);
 				lcd_Clear(WHITE);
