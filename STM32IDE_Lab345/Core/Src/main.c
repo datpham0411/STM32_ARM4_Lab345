@@ -108,7 +108,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   lcd_init();
   lcd_Clear(WHITE);
-  test_lcd();
+  initial_lcd();
   while (1)
   {
 	  button_Scan();
@@ -396,7 +396,7 @@ void test_button(){
 	}
 }
 
-void test_lcd() {
+void initial_lcd() {
 //	lcd_StrCenter(0, 2, "Hello Money", RED, BLUE, 16, 0);
 //	lcd_ShowStr(20, 30, "Test LCD Screen", WHITE, RED, 24, 1);
 
