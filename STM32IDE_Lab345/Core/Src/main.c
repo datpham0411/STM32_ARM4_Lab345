@@ -397,9 +397,6 @@ void test_button(){
 }
 
 void initial_lcd() {
-//	lcd_StrCenter(0, 2, "Hello Money", RED, BLUE, 16, 0);
-//	lcd_ShowStr(20, 30, "Test LCD Screen", WHITE, RED, 24, 1);
-
 	// Vertical
 	lcd_DrawCircle(180, 120, RED, 20, 0);
 	lcd_DrawCircle(180, 170, GREEN, 20, 0);
