@@ -106,13 +106,33 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  lcd_init();
-  lcd_Clear(WHITE);
-  initial_lcd();
-  while (1)
-  {
-	  button_Scan();
-	  fsm_manual_run();
+//  lcd_init();
+//  lcd_Clear(WHITE);
+//  test_lcd();
+
+  	  lcd_Clear(BLACK);
+  	  setTimer2(200);
+  	  ds3231_ReadTime();
+  	  setAlartInit();
+  	  updateTime(ds3231_sec, ds3231_min, ds3231_hours, ds3231_day, ds3231_date, ds3231_month, ds3231_year);
+
+  	  while (1) {
+//	  button_Scan();
+//	  fsm_manual_run();
+
+//	  button_Scan();
+//	  clock_automatic_run();
+  		  lcd_ShowStr(10, 30, "Received: ", WHITE, BLACK, 24, 1);
+  		  if (receive_buffer1 != 0) {
+  			lcd_ShowIntNum(150, 30, &receive_buffer1, 2, WHITE, BLACK, 24);
+  		  }
+//	  while(!timer2_flag);
+//	  	 timer2_flag = 0;
+//	  	 button_Scan();
+//	  	 test_LedDebug();
+//	  	 ds3231_ReadTime();
+//	  	 displayTime(modeStatus);
+//	  	 test_Uart();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
