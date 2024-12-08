@@ -1,0 +1,63 @@
+/*
+ * clock_automatic.c
+ *
+ *  Created on: Nov 30, 2024
+ *      Author: datph
+ */
+#include "clock_automatic.h"
+
+int modeStatus = WATCH;
+
+void clock_automatic_run() {
+	switch (modeStatus) {
+		case WATCH:
+			ds3231_ReadTime();
+			displayTime(modeStatus);
+			checkAlart();
+
+			if (isButtonModePressed()) { // Button [11] ">" is Button Mode
+				modeStatus = SETTIME;
+				displayTime(modeStatus);
+				setFlagModifyTimer(500);
+			}
+			break;
+		case SETTIME:
+			if(isButtonModePressed()) {
+				modeStatus = ALARM;
+				displayTime(modeStatus);
+				modifyStatus = 0;
+			}
+			clock_manual_run();
+			break;
+		case ALARM:
+//			setupAlart();
+			if (isButtonModePressed()) {
+				modeStatus = UPDATETIME;
+				lcd_Clear(BLACK);
+				displayAlartTime(modeStatus);
+				uart_Rs232SendString("Hours");
+			}
+			break;
+		case UPDATETIME:
+			lcd_ShowStr(10, 30, "Gio dang cap nhat...", YELLOW, BLACK, 24, 1);
+			ds3231_ReadTime();
+			displayUpdateTime(modeStatus, receive_buffer1, 'H');
+
+//
+//			lcd_ShowStr(10, 30, "Gio dang cap nhat...", YELLOW, BLACK, 24, 1);
+//			ds3231_ReadTime();
+//			displayTime(modeStatus);
+//			displayUpdateTime(modeStatus, receive_buffer1, 'H');
+
+			if (isButtonModePressed()) {
+				modeStatus = WATCH;
+				lcd_Clear(BLACK);
+				displayAlartTime(modeStatus);
+			}
+		break;
+		default:
+			break;
+	}
+}
+
+

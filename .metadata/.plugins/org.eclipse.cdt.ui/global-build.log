@@ -1,10 +1,49 @@
-15:08:10 **** Incremental Build of configuration Debug for project STM32IDE_Lab345 ****
+20:50:12 **** Incremental Build of configuration Debug for project STM32IDE_Lab345 ****
 make -j8 all 
-arm-none-eabi-gcc "../Core/Src/fsm_automatic.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/fsm_automatic.d" -MT"Core/Src/fsm_automatic.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fsm_automatic.o"
-In file included from ../Core/Inc/button.h:13,
-                 from ../Core/Inc/fsm_manual.h:11,
-                 from ../Core/Inc/fsm_automatic.h:11,
-                 from ../Core/Src/fsm_automatic.c:7:
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:157:30: warning: passing argument 3 of 'lcd_ShowIntNum' makes integer from pointer without a cast [-Wint-conversion]
+  157 |      lcd_ShowIntNum(150, 30, &receive_buffer1, 2, WHITE, BLACK, 24);
+      |                              ^~~~~~~~~~~~~~~~
+      |                              |
+      |                              uint8_t * {aka unsigned char *}
+In file included from ../Core/Src/main.c:25:
+../Core/Inc/lcd.h:92:52: note: expected 'uint16_t' {aka 'short unsigned int'} but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+   92 | void lcd_ShowIntNum(uint16_t x,uint16_t y,uint16_t num,uint8_t len,uint16_t fc,uint16_t bc,uint8_t sizey);
+      |                                           ~~~~~~~~~^~~
+../Core/Src/main.c: In function 'test_Uart':
+../Core/Src/main.c:526:24: warning: pointer targets in passing argument 1 of 'uart_Rs232SendString' differ in signedness [-Wpointer-sign]
+  526 |   uart_Rs232SendString(":");
+      |                        ^~~
+      |                        |
+      |                        char *
+In file included from ../Core/Inc/clock_automatic.h:15,
+                 from ../Core/Src/main.c:28:
+../Core/Inc/uart.h:20:36: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+   20 | void uart_Rs232SendString(uint8_t* str);
+      |                           ~~~~~~~~~^~~
+../Core/Src/main.c:528:24: warning: pointer targets in passing argument 1 of 'uart_Rs232SendString' differ in signedness [-Wpointer-sign]
+  528 |   uart_Rs232SendString(":");
+      |                        ^~~
+      |                        |
+      |                        char *
+In file included from ../Core/Inc/clock_automatic.h:15,
+                 from ../Core/Src/main.c:28:
+../Core/Inc/uart.h:20:36: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+   20 | void uart_Rs232SendString(uint8_t* str);
+      |                           ~~~~~~~~~^~~
+../Core/Src/main.c:530:24: warning: pointer targets in passing argument 1 of 'uart_Rs232SendString' differ in signedness [-Wpointer-sign]
+  530 |   uart_Rs232SendString("\n");
+      |                        ^~~~
+      |                        |
+      |                        char *
+In file included from ../Core/Inc/clock_automatic.h:15,
+                 from ../Core/Src/main.c:28:
+../Core/Inc/uart.h:20:36: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+   20 | void uart_Rs232SendString(uint8_t* str);
+      |                           ~~~~~~~~~^~~
+In file included from ../Core/Src/main.c:25:
+../Core/Src/main.c: At top level:
 ../Core/Inc/lcd.h:75:13: warning: 'LCD_WR_DATA' declared 'static' but never defined [-Wunused-function]
    75 | static void LCD_WR_DATA(uint16_t data);
       |             ^~~~~~~~~~~
@@ -17,9 +56,9 @@ Finished building target: STM32IDE_Lab345.elf
 arm-none-eabi-size   STM32IDE_Lab345.elf 
 arm-none-eabi-objdump -h -S  STM32IDE_Lab345.elf  > "STM32IDE_Lab345.list"
 arm-none-eabi-objcopy  -O ihex  STM32IDE_Lab345.elf  "STM32IDE_Lab345.hex"
-   text	   data	    bss	    dec	    hex	filename
-  29952	     40	   1952	  31944	   7cc8	STM32IDE_Lab345.elf
 arm-none-eabi-objcopy  -O binary  STM32IDE_Lab345.elf  "STM32IDE_Lab345.bin"
+   text	   data	    bss	    dec	    hex	filename
+  35404	     20	   2124	  37548	   92ac	STM32IDE_Lab345.elf
 Finished building: default.size.stdout
  
 Finished building: STM32IDE_Lab345.hex

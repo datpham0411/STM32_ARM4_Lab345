@@ -1,0 +1,19 @@
+/*
+ * clock_setting.h
+ *
+ *  Created on: Dec 1, 2024
+ *      Author: datph
+ */
+
+#ifndef INC_CLOCK_SETTING_H_
+#define INC_CLOCK_SETTING_H_
+
+uint16_t secondAlart = 0;
+uint16_t minuteAlart = 0;
+uint16_t hourAlart = 0;
+uint16_t dayAlart = 0;
+uint16_t dateAlart = 0;
+uint16_t monthAlart = 0;
+uint16_t yearAlart = 0;
+
+#endif /* INC_CLOCK_SETTING_H_ */

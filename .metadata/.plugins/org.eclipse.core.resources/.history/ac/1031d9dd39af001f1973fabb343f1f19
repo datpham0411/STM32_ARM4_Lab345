@@ -1,0 +1,15 @@
+/*
+ * clock_manual.h
+ *
+ *  Created on: Nov 30, 2024
+ *      Author: datph
+ */
+
+#ifndef INC_CLOCK_MANUAL_H_
+#define INC_CLOCK_MANUAL_H_
+
+#define NUM_MODIFY_STATUS 4
+
+void clock_manual_run();
+
+#endif /* INC_CLOCK_MANUAL_H_ */

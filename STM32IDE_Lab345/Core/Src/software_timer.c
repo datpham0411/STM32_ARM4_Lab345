@@ -18,6 +18,21 @@ int timer3_flag = 0;
 int idx = 0;
 int TICK = 10;
 
+uint16_t flagModify = 0;
+uint16_t timerModify_counter = 0;
+
+uint16_t isFlagModify() {
+	if(flagModify == 1) {
+		flagModify = 0;
+		return 1;
+	}
+	return 0;
+}
+
+void setFlagModifyTimer(uint16_t timer) {
+	timerModify_counter = timer;
+}
+
 void setTimer1 (int duration) {
 	timer1_counter = duration;
 	timer1_flag = 0;
@@ -50,5 +65,12 @@ void timerRun() {
 
 	if (timer3_counter > 0) --timer3_counter;
 	else timer3_flag = 1;
+
+	if(timerModify_counter > 0){
+		--timerModify_counter;
+	}
+	else {
+		flagModify = 1;
+	}
 }
 

@@ -1,0 +1,2 @@
+clock_update.c:13:6:uart_Rs232SendStringHandler	16	static
+clock_update.c:39:6:clock_update_run	24	static
