@@ -1,0 +1,19 @@
+/*
+ * clock_automatic.h
+ *
+ *  Created on: Nov 30, 2024
+ *      Author: datph
+ */
+
+#ifndef INC_CLOCK_AUTOMATIC_H_
+#define INC_CLOCK_AUTOMATIC_H_
+
+#include "clock_manual.h"
+
+#define NUM_MODE_STATUS 4
+
+#define WATCH 	1		// chế độ xem giờ
+#define SETTIME 2 		// chế độ chỉnh giờ
+#define ALARM	3 		// chế độ hẹn giờ
+
+#endif /* INC_CLOCK_AUTOMATIC_H_ */

@@ -1,0 +1,14 @@
+/*
+ * clock_setting.h
+ *
+ *  Created on: Dec 1, 2024
+ *      Author: datph
+ */
+
+#ifndef INC_CLOCK_SETTING_H_
+#define INC_CLOCK_SETTING_H_
+
+#include "main.h"
+#include "ds3231.h".h"
+
+#endif /* INC_CLOCK_SETTING_H_ */

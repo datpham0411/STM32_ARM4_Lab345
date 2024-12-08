@@ -25,7 +25,18 @@
 #include "lcd.h"
 #include "button.h"
 #include "fsm_manual.h"
+#include "clock_automatic.h"
 #include "software_timer.h"
+#include "led7_segment.h"
+#include "led_7seg.h"
+#include "picture.h"
+#include "ds3231.h"
+#include "uart.h"
+#include "i2c.h"
+#include "spi.h"
+#include "usart.h"
+#include "global.h"
+#include "clock_setting.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -43,9 +54,13 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+I2C_HandleTypeDef hi2c1;
+
 SPI_HandleTypeDef hspi1;
 
 TIM_HandleTypeDef htim2;
+
+UART_HandleTypeDef huart1;
 
 SRAM_HandleTypeDef hsram1;
 
@@ -56,12 +71,24 @@ SRAM_HandleTypeDef hsram1;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_FSMC_Init(void);
 static void MX_TIM2_Init(void);
+static void MX_FSMC_Init(void);
+static void MX_I2C1_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 void test_lcd();
 void test_button();
+void system_init();
+void test_LedDebug();
+void test_Uart();
+//void toggleDisplayTime(uint8_t index, uint8_t toggle);
+//void checkTime();
+//void checkAlart();
+//void alartNotify();
+//void checkTimeAlart();
+//void displayAlartTime();
+//void setAlartInit();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -97,10 +124,13 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_FSMC_Init();
   MX_TIM2_Init();
+  MX_FSMC_Init();
+  MX_I2C1_Init();
   MX_SPI1_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  system_init();
   HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
 
@@ -182,6 +212,40 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief I2C1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C1_Init(void)
+{
+
+  /* USER CODE BEGIN I2C1_Init 0 */
+
+  /* USER CODE END I2C1_Init 0 */
+
+  /* USER CODE BEGIN I2C1_Init 1 */
+
+  /* USER CODE END I2C1_Init 1 */
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.ClockSpeed = 100000;
+  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C1_Init 2 */
+
+  /* USER CODE END I2C1_Init 2 */
+
 }
 
 /**
@@ -268,6 +332,39 @@ static void MX_TIM2_Init(void)
 }
 
 /**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -286,9 +383,6 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, OUTPUT_Y1_Pin|OUTPUT_Y0_Pin|DEBUG_LED_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(FSMC_RES_GPIO_Port, FSMC_RES_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
@@ -300,12 +394,8 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(BTN_LOAD_GPIO_Port, BTN_LOAD_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : OUTPUT_Y1_Pin OUTPUT_Y0_Pin DEBUG_LED_Pin */
-  GPIO_InitStruct.Pin = OUTPUT_Y1_Pin|OUTPUT_Y0_Pin|DEBUG_LED_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOE, OUTPUT_Y0_Pin|DEBUG_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : FSMC_RES_Pin */
   GPIO_InitStruct.Pin = FSMC_RES_Pin;
@@ -313,12 +403,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(FSMC_RES_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : INPUT_X0_Pin INPUT_X1_Pin INPUT_X2_Pin INPUT_X3_Pin */
-  GPIO_InitStruct.Pin = INPUT_X0_Pin|INPUT_X1_Pin|INPUT_X2_Pin|INPUT_X3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LD_LATCH_Pin */
   GPIO_InitStruct.Pin = LD_LATCH_Pin;
@@ -334,18 +418,19 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(FSMC_BLK_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : BUTTON_1_Pin BUTTON_2_Pin BUTTON_3_Pin */
-  GPIO_InitStruct.Pin = BUTTON_1_Pin|BUTTON_2_Pin|BUTTON_3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
   /*Configure GPIO pin : BTN_LOAD_Pin */
   GPIO_InitStruct.Pin = BTN_LOAD_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(BTN_LOAD_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : OUTPUT_Y0_Pin DEBUG_LED_Pin */
+  GPIO_InitStruct.Pin = OUTPUT_Y0_Pin|DEBUG_LED_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
 }
 
@@ -411,8 +496,54 @@ static void MX_FSMC_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void system_init() {
+//	HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 0);
+//	HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 0);
+//	HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 0);
+
+	led7_init();
+	button_init();
+	lcd_init();
+	ds3231_init();
+	uart_init_rs232();
+	setTimer2(50);
+}
+
+uint16_t count_led_debug = 0;
+
+void test_LedDebug() {
+	count_led_debug = (count_led_debug + 1)%20;
+	if (count_led_debug == 0) {
+		HAL_GPIO_TogglePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin);
+	}
+}
+
+
+
+void test_Uart() {
+	if (button_count[12] == 1) {
+		uart_Rs232SendNum(ds3231_hours);
+		uart_Rs232SendString(":");
+		uart_Rs232SendNum(ds3231_min);
+		uart_Rs232SendString(":");
+		uart_Rs232SendNum(ds3231_sec);
+		uart_Rs232SendString("\n");
+	}
+}
+
+void test_7seg(){
+	led7_SetDigit(0, 0, 0);
+	led7_SetDigit(5, 1, 0);
+	led7_SetDigit(4, 2, 0);
+	led7_SetDigit(7, 3, 0);
+}
+
 void test_button(){
 	for(int i = 0; i < 16; i++){
+		if(button_count[i] == 1){
+			led7_SetDigit(i/10, 2, 0);
+			led7_SetDigit(i%10, 3, 0);
+		}
 	}
 }
 

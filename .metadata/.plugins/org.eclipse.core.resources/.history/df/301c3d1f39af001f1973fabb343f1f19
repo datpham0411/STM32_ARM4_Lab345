@@ -1,0 +1,11 @@
+/*
+ * clock_manual.c
+ *
+ *  Created on: Nov 30, 2024
+ *      Author: datph
+ */
+#include "clock_manual.h"
+
+void clock_manual_run() {
+
+}

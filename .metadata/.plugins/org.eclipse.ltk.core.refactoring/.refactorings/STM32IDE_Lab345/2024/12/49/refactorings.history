@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;STM32IDE_Lab345/Core/Src/clock_update_run.c&apos; to &apos;clock_update.c&apos;" description="Rename resource &apos;clock_update_run.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Src/clock_update_run.c" name="clock_update.c" stamp="1733286368609" updateReferences="true"/>
+</session>
